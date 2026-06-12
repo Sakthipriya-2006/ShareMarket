@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  name         String
+  passwordHash String
+  riskProfile  String        @default("Balanced") // Conservative, Balanced, Aggressive
+  cashBalance  Float         @default(100000.0) // Mock starting cash is $100,000
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  holdings     Holding[]
+  transactions Transaction[]
+  alerts       Alert[]
+  watchlists   Watchlist[]
+  compactMode  Boolean       @default(false)
+  theme        String        @default("light")
+  chartStyle   String        @default("Candlestick")
+  timezone     String        @default("(UTC+05:30) Mumbai")
+  language     String        @default("English")
+}
+
+model Holding {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  symbol    String
+  quantity  Float
+  avgPrice  Float
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, symbol])
+}
+
+model Transaction {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  symbol    String
+  type      String   // BUY or SELL
+  quantity  Float
+  price     Float
+  timestamp DateTime @default(now())
+}
+
+model Alert {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  symbol      String
+  targetPrice Float
+  type        String    // ABOVE or BELOW
+  isActive    Boolean   @default(true)
+  isTriggered Boolean   @default(false)
+  triggeredAt DateTime?
+  createdAt   DateTime  @default(now())
+}
+
+model Watchlist {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  symbol    String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, symbol])
+}
