@@ -59,7 +59,7 @@ export default function MarketPage() {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition whitespace-nowrap ${\n                activeTab === tab
+              className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition whitespace-nowrap ${activeTab === tab
                   ? 'bg-white shadow-sm text-blue-600'
                   : 'text-gray-500 hover:text-blue-600'
               }`}
