@@ -1,5 +1,6 @@
 'use client';
 
+export const dynamic = 'force-dynamic'
 import { useEffect, useState } from 'react';
 import {
   Settings, Bell, Lock, Eye, Zap, BarChart3, Globe, Moon,

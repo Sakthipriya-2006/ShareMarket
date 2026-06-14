@@ -1,5 +1,6 @@
 'use client';
 
+export const dynamic = 'force-dynamic'
 import { useState } from 'react';
 import { Filter, TrendingUp, TrendingDown, Brain } from 'lucide-react';
 
